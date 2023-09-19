@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/common/product';
 import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from 'src/app/common/cart-item';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
 
   products: Product[] = [];
   currentCategoryId: number = 1;
@@ -22,6 +24,7 @@ export class ProductListComponent {
   previousKeyword: string = "";
 
   constructor(private productService: ProductService,
+              private cartService: CartService,
               private route: ActivatedRoute) { }
   
   ngOnInit(): void {
@@ -92,12 +95,7 @@ export class ProductListComponent {
                                                this.thePageSize,
                                                this.currentCategoryId)
                                                .subscribe(
-                                                data => {
-                                                  this.products = data._embedded.products;
-                                                  this.thePageNumber = data.page.number + 1;
-                                                  this.thePageSize = data.page.size;
-                                                  this.theTotalElements = data.page.totalElements;
-                                                }                                     
+                                                this.processResult()                          
                                                );
   }
 
@@ -114,6 +112,15 @@ export class ProductListComponent {
       this.thePageSize = data.page.size;
       this.theTotalElements = data.page.totalElements;
     };
+  }
+  addToCart(theProduct: Product) {
+    
+    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
+
+  
+    const theCartItem = new CartItem(theProduct.id!, theProduct.name!, theProduct.imageUrl!, theProduct.unitPrice!);
+
+    this.cartService.addToCart(theCartItem);
   }
 }
 
