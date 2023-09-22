@@ -22,12 +22,41 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "skipLibCheck": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "strictTemplates": true,
+    "allowedCommonJsDependencies": [
+
+      "detect-node",
+  
+      "@babel/runtime-corejs3/regenerator",
+  
+      "q",
+  
+      "parse-ms",
+  
+      "@sindresorhus/to-milliseconds",
+  
+      "clipboard",
+  
+      "cross-fetch",
+  
+      "tiny-emitter",
+  
+      "p-cancelable"
+  
+    ],
+    "allowSyntheticDefaultImports":true
+  },
+  "paths": {
+
+    "okta": ["./node_modules/@okta/okta-signin-widget/types/packages/@okta/courage-dist/types/index.d.ts"],
+
+  },
+  
 }
